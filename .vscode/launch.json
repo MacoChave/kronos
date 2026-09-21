@@ -1,0 +1,23 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Kronos (Dev)",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--flavor",
+                "dev"
+            ]
+        },
+        {
+            "name": "Kronos (Prod)",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--flavor",
+                "prod"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,27 @@
+{
+	"dev": {
+		"version": "2.0.0-dev",
+		"buildNumber": 4,
+		"appName": "Kronos Dev",
+		"url": "https://www.dropbox.com/scl/fi/jhx0z8bj8r5xglmcj2gub/app-dev-release.apk?rlkey=ewd04bz1r1hpenc35ty4wwdh1&st=82o3d1d6&dl=0",
+		"release_notes": [
+			"Mejora en la vibracion",
+			"Reestructuracion del codigo y eliminacion de codigo no utilizado",
+			"Actualizacion de dependencias",
+			"Actualizacion de entorno de desarrollo Flutter y Kotlin",
+			"Verificar actualizaciones disponibles"
+		]
+	},
+	"prod": {
+		"version": "1.1.0",
+		"buildNumber": 3,
+		"appName": "Kronos",
+		"url": "https://www.dropbox.com/scl/fi/snw8f9ydo4bui9p0qcytw/app-prod-release.apk?rlkey=26l8qc3k8sx8lzdlsz95n5w8f&st=p5mek6ge&dl=0",
+		"release_notes": [
+			"Actualización de entorno de desarrollo Flutter y Kotlin",
+			"Verificar actualizaciones disponibles",
+			"Codigo de colores a los minutos",
+			"Vibracion cerca de terminar el turno"
+		]
+	}
+}
