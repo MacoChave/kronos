@@ -1,17 +1,26 @@
 import 'package:vibration/vibration.dart';
 
 class VibrationService {
-  Future<void> vibrateBasedOnTime(int remainingSeconds) async {
-    if (!await Vibration.hasVibrator()) return;
-    if (!await Vibration.hasAmplitudeControl()) return;
-    if (!await Vibration.hasCustomVibrationsSupport()) return;
+  Future<void> vibrateStrong() async {
+    final hasVibrator = await Vibration.hasVibrator();
+    if (hasVibrator != true) return;
 
-    if (remainingSeconds <= 5) {
-      Vibration.vibrate(duration: 500, amplitude: 255); // Vibración fuerte
-    } else if (remainingSeconds <= 10) {
-      Vibration.vibrate(duration: 500, amplitude: 191); // Vibración media
-    } else if (remainingSeconds <= 15) {
-      Vibration.vibrate(duration: 500, amplitude: 128); // Vibración suave
+    final hasAmplitude = await Vibration.hasAmplitudeControl();
+    if (hasAmplitude == true) {
+      Vibration.vibrate(duration: 500, amplitude: 255);
+    } else {
+      Vibration.vibrate(duration: 500);
     }
+  }
+
+  void vibrateBasedOnTime(int remainingSeconds) {
+    // Vibra fuerte cada segundo del 10 al 6to segundo
+    if (remainingSeconds >= 6 && remainingSeconds <= 10) {
+      vibrateStrong();
+    }
+  }
+
+  void cancel() {
+    Vibration.cancel();
   }
 }
