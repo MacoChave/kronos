@@ -15,8 +15,8 @@
 		]
 	},
 	"prod": {
-		"version": "1.1.2",
-		"buildNumber": 4,
+		"version": "2.0.1",
+		"buildNumber": 5,
 		"appName": "Kronos",
 		"url": "https://www.dropbox.com/scl/fi/snw8f9ydo4bui9p0qcytw/app-prod-release.apk?rlkey=26l8qc3k8sx8lzdlsz95n5w8f&st=p5mek6ge&dl=0",
 		"release_notes": [
