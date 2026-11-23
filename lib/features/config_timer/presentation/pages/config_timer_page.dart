@@ -67,9 +67,9 @@ class _ConfigTimerPageState extends State<ConfigTimerPage> {
         elevation: context.silk.raised[0].blurRadius,
         centerTitle: true,
         titleTextStyle: Theme.of(context).textTheme.headlineMedium?.copyWith(
-          color: context.silk.primary,
-          fontWeight: FontWeight.bold,
-        ),
+              color: context.silk.primary,
+              fontWeight: FontWeight.bold,
+            ),
         iconTheme: IconThemeData(color: context.silk.primary),
       ),
       body: Center(
@@ -82,18 +82,9 @@ class _ConfigTimerPageState extends State<ConfigTimerPage> {
                 child: Column(
                   children: [
                     Text(
-                      'Configurar Tiempo',
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                        color: context.silk.onSurface,
-                      ),
-                    ),
-                    SizedBox(height: 8),
-                    Text(
                       'Ajusta la duración de cada turno',
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 24,
                         color: context.silk.onSurface,
                       ),
                     )
