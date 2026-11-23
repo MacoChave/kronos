@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:kronos/features/config/data/repositories/config_repository.dart';
+import 'package:kronos/features/config/domain/entities/time_ranges.dart';
 import 'package:kronos/features/config/presentation/pages/config_page.dart';
 import 'package:kronos/features/config_timer/presentation/controller/config_timer_controller.dart';
 
@@ -18,11 +20,28 @@ class ConfigTimerPage extends StatefulWidget {
 
 class _ConfigTimerPageState extends State<ConfigTimerPage> {
   final ConfigTimerController _controller = ConfigTimerController();
+  final ConfigRepository _repository = ConfigRepository();
+  TimeRanges _ranges = const TimeRanges();
 
   @override
   void initState() {
     super.initState();
+    _loadRanges();
     _checkUpdate();
+  }
+
+  Future<void> _loadRanges() async {
+    final ranges = await _repository.getTimeRanges();
+    if (!mounted) return;
+    setState(() => _ranges = ranges);
+    _controller.applyRanges(ranges);
+  }
+
+  Future<void> _openConfig() async {
+    await Navigator.push(
+        context, MaterialPageRoute(builder: (_) => const ConfigPage()));
+    // Al volver, aplica los rangos que se hayan cambiado.
+    _loadRanges();
   }
 
   Future<void> _checkUpdate() async {
@@ -43,15 +62,15 @@ class _ConfigTimerPageState extends State<ConfigTimerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Configurar Tiempo'),
-        backgroundColor: SilkColors.background,
-        elevation: SilkShadows.raised[0].blurRadius,
+        title: Text('Configurar Tiempo'),
+        backgroundColor: context.silk.background,
+        elevation: context.silk.raised[0].blurRadius,
         centerTitle: true,
-        titleTextStyle: SilkTheme.theme.textTheme.headlineMedium?.copyWith(
-          color: SilkColors.primary,
+        titleTextStyle: Theme.of(context).textTheme.headlineMedium?.copyWith(
+          color: context.silk.primary,
           fontWeight: FontWeight.bold,
         ),
-        iconTheme: const IconThemeData(color: SilkColors.primary),
+        iconTheme: IconThemeData(color: context.silk.primary),
       ),
       body: Center(
         child: Column(
@@ -60,14 +79,14 @@ class _ConfigTimerPageState extends State<ConfigTimerPage> {
               // Title & Subtitle
               Container(
                 margin: const EdgeInsets.only(bottom: 48),
-                child: const Column(
+                child: Column(
                   children: [
                     Text(
                       'Configurar Tiempo',
                       style: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
-                        color: SilkColors.onSurface,
+                        color: context.silk.onSurface,
                       ),
                     ),
                     SizedBox(height: 8),
@@ -75,7 +94,7 @@ class _ConfigTimerPageState extends State<ConfigTimerPage> {
                       'Ajusta la duración de cada turno',
                       style: TextStyle(
                         fontSize: 18,
-                        color: SilkColors.onSurface,
+                        color: context.silk.onSurface,
                       ),
                     )
                   ],
@@ -90,10 +109,12 @@ class _ConfigTimerPageState extends State<ConfigTimerPage> {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 24.0),
                           child: NeuTimePicker(
+                              key: ValueKey(
+                                  'min-${_ranges.minuteMin}-${_ranges.minuteMax}'),
                               timePicker: _controller.minutes,
                               label: "Minutos",
-                              min: "1",
-                              max: "10",
+                              min: "${_ranges.minuteMin}",
+                              max: "${_ranges.minuteMax}",
                               onChanged: (value) =>
                                   _controller.updateMinutes(value)),
                         ),
@@ -101,10 +122,12 @@ class _ConfigTimerPageState extends State<ConfigTimerPage> {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 24.0),
                           child: NeuTimePicker(
+                              key: ValueKey(
+                                  'sec-${_ranges.secondMin}-${_ranges.secondMax}'),
                               timePicker: _controller.seconds,
                               label: "Segundos",
-                              min: "0",
-                              max: "59",
+                              min: "${_ranges.secondMin}",
+                              max: "${_ranges.secondMax}",
                               onChanged: (value) =>
                                   _controller.updateSeconds(value)),
                         ),
@@ -125,12 +148,14 @@ class _ConfigTimerPageState extends State<ConfigTimerPage> {
                               minutos: _controller.minutes,
                               segundos: _controller.seconds)))),
 
+              // Espacio considerable entre los dos botones
+              const SizedBox(height: 40),
+
               // Config button
               NeuButton(
                   label: 'Configuración',
                   icon: Icons.settings,
-                  onTap: () => Navigator.push(context,
-                      MaterialPageRoute(builder: (_) => const ConfigPage()))),
+                  onTap: _openConfig),
             ]),
       ),
     );

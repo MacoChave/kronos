@@ -35,17 +35,17 @@ class _UpdateDialogState extends State<UpdateDialog> {
         Row(children: [
           Container(
             padding: const EdgeInsets.all(10),
-            decoration: SilkDecor.card(radius: 14),
-            child: const Icon(Icons.system_update_rounded,
-                color: SilkColors.primary, size: 24),
+            decoration: context.silk.card(radius: 14),
+            child: Icon(Icons.system_update_rounded,
+                color: context.silk.primary, size: 24),
           ),
           const SizedBox(width: 14),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Nueva versión', style: SilkText.heading),
+              Text('Nueva versión', style: context.silk.heading),
               Text('v${widget.info.version}',
-                  style: SilkText.body.copyWith(color: SilkColors.onSurface)),
+                  style: context.silk.body.copyWith(color: context.silk.onSurface)),
             ],
           )
         ]),
@@ -59,27 +59,27 @@ class _UpdateDialogState extends State<UpdateDialog> {
               constraints: BoxConstraints(
                   maxHeight: MediaQuery.of(context).size.height * 0.2),
               padding: const EdgeInsets.all(16),
-              decoration: SilkDecor.input(radius: 14),
+              decoration: context.silk.input(radius: 14),
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text('Novedades:',
-                        style: SilkText.body
+                        style: context.silk.body
                             .copyWith(fontWeight: FontWeight.bold)),
                     const SizedBox(height: 8),
                     ...widget.info.releaseNotes.map((note) => Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text('• ',
+                            Text('• ',
                                 style: TextStyle(
-                                    fontSize: 16, color: SilkColors.onSurface)),
+                                    fontSize: 16, color: context.silk.onSurface)),
                             Expanded(
                               child: Text(note,
                                   overflow: TextOverflow.clip,
                                   softWrap: true,
-                                  style: SilkText.body
-                                      .copyWith(color: SilkColors.onSurface)),
+                                  style: context.silk.body
+                                      .copyWith(color: context.silk.onSurface)),
                             ),
                           ],
                         ))
@@ -96,14 +96,14 @@ class _UpdateDialogState extends State<UpdateDialog> {
             borderRadius: BorderRadius.circular(8),
             child: LinearProgressIndicator(
                 value: _progress,
-                backgroundColor: SilkColors.background,
-                color: SilkColors.primary,
+                backgroundColor: context.silk.background,
+                color: context.silk.primary,
                 minHeight: 6),
           ),
           const SizedBox(height: 20),
           Text(
             'Descargando... ${(_progress * 100).toStringAsFixed(0)}%',
-            style: SilkText.body.copyWith(color: SilkColors.onSurface),
+            style: context.silk.body.copyWith(color: context.silk.onSurface),
           ),
           const SizedBox(height: 16),
         ],
@@ -118,9 +118,9 @@ class _UpdateDialogState extends State<UpdateDialog> {
                   onTap: () => Navigator.pop(context),
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 14),
-                    decoration: SilkDecor.buttonRaised(),
+                    decoration: context.silk.buttonRaised(),
                     alignment: Alignment.center,
-                    child: Text('Ahora no', style: SilkText.caption),
+                    child: Text('Ahora no', style: context.silk.caption),
                   ),
                 ),
               ),
@@ -133,10 +133,10 @@ class _UpdateDialogState extends State<UpdateDialog> {
               onTap: _downloading ? null : _startDownload,
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 14),
-                decoration: SilkDecor.buttonRaised(),
+                decoration: context.silk.buttonRaised(),
                 alignment: Alignment.center,
                 child: Text(_downloading ? 'Descargando...' : 'Actualizar',
-                    style: SilkText.button),
+                    style: context.silk.button),
               ),
             ))
           ],

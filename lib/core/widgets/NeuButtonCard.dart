@@ -38,22 +38,22 @@ class _NeuButtonCardState extends State<NeuButtonCard> {
         height: widget.height,
         padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
-          color: SilkColors.background,
+          color: context.silk.background,
           borderRadius: BorderRadius.circular(24),
+          // Neumorfismo elevado: sombras externas; al presionar se hunde
+          // (sin sombra externa, con sombra interna sutil).
           boxShadow: _pressed
               ? []
-              : const [
+              : [
                   BoxShadow(
-                    color: SilkColors.insetDark,
-                    offset: Offset(4, 4),
-                    blurRadius: 15,
-                    spreadRadius: 1,
+                    color: context.silk.shadowDark,
+                    offset: Offset(8, 8),
+                    blurRadius: 16,
                   ),
                   BoxShadow(
-                    color: SilkColors.insetLight,
-                    offset: Offset(-4, -4),
-                    blurRadius: 15,
-                    spreadRadius: 1,
+                    color: context.silk.shadowLight,
+                    offset: Offset(-8, -8),
+                    blurRadius: 16,
                   ),
                 ],
         ),

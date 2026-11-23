@@ -1,141 +1,171 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-// ─── COLORES ────────────────────────────────────────────────────────────────
-class SilkColors {
-  SilkColors._();
+// ─── PALETA (claro / oscuro) ────────────────────────────────────────────────
+// Los colores dependen del tema activo. Los widgets los obtienen con
+// `context.silk` (ver SilkScope), así se actualizan al cambiar el tema.
+class SilkPalette {
+  final bool isDark;
+  final Color background; // "clay" surface
+  final Color primary; // interactivos
+  final Color tertiary; // acentos
+  final Color shadowDark;
+  final Color shadowLight;
+  final Color insetDark;
+  final Color insetLight;
+  final Color onSurface; // texto principal
+  final Color onSurfaceVariant;
+  final Color onError;
+  final Color onWarning;
 
-  static const background = Color(0xFFE8EAF0); // "clay" surface
-  static const primary = Color(0xFF6366F1); // indigo — interactivos
-  static const tertiary = Color(0xFF7C3AED); // violet — acentos
+  const SilkPalette._({
+    required this.isDark,
+    required this.background,
+    required this.primary,
+    required this.tertiary,
+    required this.shadowDark,
+    required this.shadowLight,
+    required this.insetDark,
+    required this.insetLight,
+    required this.onSurface,
+    required this.onSurfaceVariant,
+    required this.onError,
+    required this.onWarning,
+  });
 
-  // Sombras neumórficas
-  static const shadowDark = Color(0x14000000); // rgba(0,0,0,0.08)
-  static const shadowLight = Color(0x99FFFFFF); // rgba(255,255,255,0.6)
+  static const light = SilkPalette._(
+    isDark: false,
+    background: Color(0xFFE8EAF0),
+    primary: Color(0xFF6366F1),
+    tertiary: Color(0xFF7C3AED),
+    shadowDark: Color(0x14000000),
+    shadowLight: Color(0x99FFFFFF),
+    insetDark: Color(0x0F000000),
+    insetLight: Color(0x80FFFFFF),
+    onSurface: Color(0xFF3D4151),
+    onSurfaceVariant: Color(0xFF7B8197),
+    onError: Color(0xFFE53935),
+    onWarning: Color(0xFFFFA000),
+  );
 
-  // Sombras inset (pressed)
-  static const insetDark = Color(0x0F000000); // rgba(0,0,0,0.06)
-  static const insetLight = Color(0x80FFFFFF); // rgba(255,255,255,0.5)
+  static const dark = SilkPalette._(
+    isDark: true,
+    background: Color(0xFF1F2130),
+    primary: Color(0xFF818CF8),
+    tertiary: Color(0xFFA78BFA),
+    shadowDark: Color(0x80000000),
+    shadowLight: Color(0x14FFFFFF),
+    insetDark: Color(0x66000000),
+    insetLight: Color(0x0FFFFFFF),
+    onSurface: Color(0xFFE2E4EE),
+    onSurfaceVariant: Color(0xFF9AA0B5),
+    onError: Color(0xFFEF5350),
+    onWarning: Color(0xFFFFB300),
+  );
 
-  // Texto
-  static const onSurface = Color(0xFF3D4151); // texto principal
-  static const onSurfaceVariant = Color(0xFF7B8197);
-
-  static const onError = Color(0xFFE53935); // rojo para alerta
-  static const onWarning = Color(0xFFFFA000); // amarillo para advertencia
-}
-
-// ─── SOMBRAS ────────────────────────────────────────────────────────────────
-class SilkShadows {
-  SilkShadows._();
-
+  // ─── SOMBRAS ──────────────────────────────────────────────────────────────
   /// Elemento elevado / raised
-  static const raised = [
-    BoxShadow(
-      color: SilkColors.shadowDark,
-      offset: Offset(6, 6),
-      blurRadius: 12,
-    ),
-    BoxShadow(
-      color: SilkColors.shadowLight,
-      offset: Offset(-6, -6),
-      blurRadius: 12,
-    ),
-  ];
+  List<BoxShadow> get raised => [
+        BoxShadow(color: shadowDark, offset: const Offset(6, 6), blurRadius: 12),
+        BoxShadow(color: shadowLight, offset: const Offset(-6, -6), blurRadius: 12),
+      ];
 
   /// Elemento presionado / inset
-  static const pressed = [
-    BoxShadow(
-      color: SilkColors.insetDark,
-      offset: Offset(4, 4),
-      blurRadius: 8,
-    ),
-    BoxShadow(
-      color: SilkColors.insetLight,
-      offset: Offset(-4, -4),
-      blurRadius: 8,
-    ),
-  ];
-}
+  List<BoxShadow> get pressed => [
+        BoxShadow(color: insetDark, offset: const Offset(4, 4), blurRadius: 8),
+        BoxShadow(color: insetLight, offset: const Offset(-4, -4), blurRadius: 8),
+      ];
 
-// ─── DECORACIONES ───────────────────────────────────────────────────────────
-class SilkDecor {
-  SilkDecor._();
-
-  /// Tarjeta / card raised
-  static BoxDecoration card({double radius = 20}) => BoxDecoration(
-        color: SilkColors.background,
+  // ─── DECORACIONES ─────────────────────────────────────────────────────────
+  BoxDecoration card({double radius = 20}) => BoxDecoration(
+        color: background,
         borderRadius: BorderRadius.circular(radius),
-        boxShadow: SilkShadows.raised,
+        boxShadow: raised,
       );
 
-  /// Input inset (carved)
-  static BoxDecoration input({double radius = 14}) => BoxDecoration(
-        color: SilkColors.background,
+  BoxDecoration input({double radius = 14}) => BoxDecoration(
+        color: background,
         borderRadius: BorderRadius.circular(radius),
-        boxShadow: SilkShadows.pressed,
+        boxShadow: pressed,
       );
 
-  /// Botón raised (estado normal)
-  static BoxDecoration buttonRaised({double radius = 16}) => BoxDecoration(
-        color: SilkColors.background,
+  BoxDecoration buttonRaised({double radius = 16}) => BoxDecoration(
+        color: background,
         borderRadius: BorderRadius.circular(radius),
-        boxShadow: SilkShadows.raised,
+        boxShadow: raised,
       );
 
-  /// Botón pressed (estado al tocar)
-  static BoxDecoration buttonPressed({double radius = 16}) => BoxDecoration(
-        color: SilkColors.background,
-        borderRadius: BorderRadius.circular(radius),
-        boxShadow: SilkShadows.pressed,
-      );
-}
-
-// ─── TIPOGRAFÍA ─────────────────────────────────────────────────────────────
-class SilkText {
-  SilkText._();
-
+  // ─── TIPOGRAFÍA ───────────────────────────────────────────────────────────
   // Plus Jakarta Sans requiere el paquete google_fonts
-  // Agrega a pubspec.yaml: google_fonts: ^6.2.1
+  TextStyle get heading => GoogleFonts.plusJakartaSans(
+        fontSize: 22,
+        fontWeight: FontWeight.w600,
+        color: onSurface,
+      );
 
-  static final heading = GoogleFonts.plusJakartaSans(
-    fontSize: 22,
-    fontWeight: FontWeight.w600, // semibold
-    color: SilkColors.onSurface,
-  );
+  TextStyle get body => GoogleFonts.plusJakartaSans(
+        fontSize: 15,
+        fontWeight: FontWeight.w500,
+        color: onSurface,
+      );
 
-  static final body = GoogleFonts.plusJakartaSans(
-    fontSize: 15,
-    fontWeight: FontWeight.w500, // medium
-    color: SilkColors.onSurface,
-  );
+  TextStyle get caption => GoogleFonts.plusJakartaSans(
+        fontSize: 13,
+        fontWeight: FontWeight.w500,
+        color: onSurfaceVariant,
+      );
 
-  static final caption = GoogleFonts.plusJakartaSans(
-    fontSize: 13,
-    fontWeight: FontWeight.w500,
-    color: SilkColors.onSurfaceVariant,
-  );
+  TextStyle get button => GoogleFonts.plusJakartaSans(
+        fontSize: 15,
+        fontWeight: FontWeight.w600,
+        color: primary,
+      );
+}
 
-  static final button = GoogleFonts.plusJakartaSans(
-    fontSize: 15,
-    fontWeight: FontWeight.w600,
-    color: SilkColors.primary,
-  );
+// ─── SCOPE: expone la paleta activa a todo el árbol ─────────────────────────
+class SilkScope extends InheritedWidget {
+  final SilkPalette palette;
+
+  const SilkScope({super.key, required this.palette, required super.child});
+
+  static SilkPalette of(BuildContext context) =>
+      context
+          .dependOnInheritedWidgetOfExactType<SilkScope>()
+          ?.palette ??
+      SilkPalette.light;
+
+  @override
+  bool updateShouldNotify(SilkScope oldWidget) =>
+      oldWidget.palette != palette;
+}
+
+extension SilkContext on BuildContext {
+  SilkPalette get silk => SilkScope.of(this);
 }
 
 // ─── TEMA FLUTTER ────────────────────────────────────────────────────────────
 class SilkTheme {
   SilkTheme._();
 
-  static ThemeData get theme => ThemeData(
+  static ThemeData get light => ThemeData(
         useMaterial3: false,
-        scaffoldBackgroundColor: SilkColors.background,
+        brightness: Brightness.light,
+        scaffoldBackgroundColor: SilkPalette.light.background,
         colorScheme: ColorScheme.light(
-          primary: SilkColors.primary,
-          tertiary: SilkColors.tertiary,
-          surface: SilkColors.background,
+          primary: SilkPalette.light.primary,
+          tertiary: SilkPalette.light.tertiary,
+          surface: SilkPalette.light.background,
+        ),
+      );
+
+  static ThemeData get dark => ThemeData(
+        useMaterial3: false,
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: SilkPalette.dark.background,
+        colorScheme: ColorScheme.dark(
+          primary: SilkPalette.dark.primary,
+          tertiary: SilkPalette.dark.tertiary,
+          surface: SilkPalette.dark.background,
         ),
       );
 }

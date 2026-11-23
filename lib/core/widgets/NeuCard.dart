@@ -26,17 +26,17 @@ class _NeuCardState extends State<NeuCard> {
       height: widget.height,
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: SilkColors.background,
+        color: context.silk.background,
         borderRadius: BorderRadius.circular(24),
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
-            color: SilkColors.shadowDark,
+            color: context.silk.shadowDark,
             offset: Offset(4, 4),
             blurRadius: 15,
             spreadRadius: 1,
           ),
           BoxShadow(
-            color: SilkColors.shadowLight,
+            color: context.silk.shadowLight,
             offset: Offset(-4, -4),
             blurRadius: 15,
             spreadRadius: 1,
