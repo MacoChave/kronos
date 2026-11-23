@@ -18,8 +18,15 @@ class UpdateService {
     return url;
   }
 
-  /// Descarga el .md del flavor actual y compara con la versión instalada
-  static Future<VersionInfo?> checkForUpdates() async {
+  /// Versión instalada de la app (por ejemplo "1.1.1" o "2.0.1-dev").
+  static Future<String> currentVersion() async {
+    final info = await PackageInfo.fromPlatform();
+    return info.version;
+  }
+
+  /// Descarga la información de la última versión publicada para el flavor
+  /// actual, sin comparar con la instalada.
+  static Future<VersionInfo?> fetchLatest() async {
     try {
       final url = FlavorConfig.instance.updateUrl;
       var parse = Uri.parse(_formatUrl(url));
@@ -27,17 +34,21 @@ class UpdateService {
 
       if (response.statusCode != 200) return null;
 
-      final info = await PackageInfo.fromPlatform();
-      final currentVersion = info.version;
-      final currentBuild = int.tryParse(info.buildNumber) ?? 0;
-
-      final remote = VersionInfoModel.fromJson(
-          currentVersion.split('-').last ?? 'prod', response.body);
-
-      return remote.isNewerThan(currentVersion, currentBuild) ? remote : null;
+      final version = await currentVersion();
+      return VersionInfoModel.fromJson(version.split('-').last, response.body);
     } catch (error) {
       return null;
     }
+  }
+
+  /// Devuelve la última versión solo si es más nueva que la instalada.
+  static Future<VersionInfo?> checkForUpdates() async {
+    final remote = await fetchLatest();
+    if (remote == null) return null;
+
+    final info = await PackageInfo.fromPlatform();
+    final currentBuild = int.tryParse(info.buildNumber) ?? 0;
+    return remote.isNewerThan(info.version, currentBuild) ? remote : null;
   }
 
   /// Descarga el APK y lo abre para instalar
