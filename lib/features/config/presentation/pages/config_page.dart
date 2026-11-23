@@ -7,6 +7,8 @@ import 'package:kronos/core/widgets/NeuTextField.dart';
 import 'package:kronos/core/widgets/NeuToggleButton.dart';
 import 'package:kronos/features/config/data/repositories/config_repository.dart';
 import 'package:kronos/features/config/domain/entities/time_ranges.dart';
+import 'package:kronos/features/app_update/data/services/update_service.dart';
+import 'package:kronos/features/app_update/presentation/widgets/update_dialog.dart';
 
 class ConfigPage extends StatefulWidget {
   const ConfigPage({super.key});
@@ -20,11 +22,36 @@ class _ConfigPageState extends State<ConfigPage> {
   TimeRanges _ranges = const TimeRanges();
   bool _loaded = false;
   String? _error;
+  String _appVersion = '';
+  bool _checkingUpdate = false;
 
   @override
   void initState() {
     super.initState();
     _load();
+    _loadVersion();
+  }
+
+  Future<void> _loadVersion() async {
+    final version = await UpdateService.currentVersion();
+    if (!mounted) return;
+    setState(() => _appVersion = version);
+  }
+
+  /// Consulta la última versión y, si es más nueva, abre el diálogo de descarga.
+  Future<void> _downloadNewVersion() async {
+    setState(() => _checkingUpdate = true);
+    final latest = await UpdateService.checkForUpdates();
+    if (!mounted) return;
+    setState(() => _checkingUpdate = false);
+
+    if (latest != null) {
+      UpdateDialog.show(context, latest);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('Ya tienes la última versión o no se pudo verificar.'),
+      ));
+    }
   }
 
   Future<void> _load() async {
@@ -244,6 +271,29 @@ class _ConfigPageState extends State<ConfigPage> {
                                 SizedBox(height: 8),
                                 */
                               ]))),
+                      SizedBox(height: 16),
+                      // Versión instalada
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 8),
+                        decoration: context.silk.input(radius: 20),
+                        child: Text(
+                          'Versión ${_appVersion.isEmpty ? '...' : _appVersion}',
+                          style: context.silk.body.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: context.silk.onSurfaceVariant),
+                        ),
+                      ),
+                      SizedBox(height: 16),
+                      _checkingUpdate
+                          ? const Padding(
+                              padding: EdgeInsets.all(16),
+                              child: CircularProgressIndicator(),
+                            )
+                          : NeuButton(
+                              label: 'Descargar nueva versión',
+                              icon: Icons.download_rounded,
+                              onTap: _downloadNewVersion),
                       SizedBox(height: 16),
                       NeuButton(
                           label: "Guardar cambios",
