@@ -1,10 +1,11 @@
 {
 	"dev": {
-		"version": "2.0.1-dev",
-		"buildNumber": 5,
+		"version": "2.0.2-dev",
+		"buildNumber": 6,
 		"appName": "Kronos Dev",
 		"url": "https://www.dropbox.com/scl/fi/jhx0z8bj8r5xglmcj2gub/app-dev-release.apk?rlkey=ewd04bz1r1hpenc35ty4wwdh1&st=82o3d1d6&dl=0",
 		"release_notes": [
+			"Versión instalada en Configuración y botón para descargar la nueva versión",
 			"Doble bip al llegar a 1:00 y a 0:30, y al terminarse el tiempo",
 			"Bip desde el segundo 20 y vibración fuerte desde el segundo 30",
 			"Doble bip al reiniciar el contador",
