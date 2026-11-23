@@ -33,16 +33,16 @@ class NeuTextField extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 4.0),
             child: Text(
               label!,
-              style: SilkText.body.copyWith(
+              style: context.silk.body.copyWith(
                 fontWeight: FontWeight.bold,
-                color: SilkTheme.theme.colorScheme.onSurfaceVariant,
+                color: context.silk.onSurfaceVariant,
               ),
             ),
           ),
           const SizedBox(height: 8),
         ],
         Container(
-          decoration: SilkDecor.input(radius: 14),
+          decoration: context.silk.input(radius: 14),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
           child: TextFormField(
             initialValue: initialValue,
@@ -50,13 +50,13 @@ class NeuTextField extends StatelessWidget {
             keyboardType: keyboardType,
             obscureText: obscureText,
             maxLines: maxLines,
-            style: SilkText.body.copyWith(
-              color: SilkTheme.theme.colorScheme.onSurfaceVariant,
+            style: context.silk.body.copyWith(
+              color: context.silk.onSurfaceVariant,
             ),
             decoration: InputDecoration(
               hintText: hintText,
-              hintStyle: SilkText.body.copyWith(
-                color: SilkTheme.theme.colorScheme.onSurfaceVariant,
+              hintStyle: context.silk.body.copyWith(
+                color: context.silk.onSurfaceVariant,
               ),
               border: InputBorder.none,
               enabledBorder: InputBorder.none,

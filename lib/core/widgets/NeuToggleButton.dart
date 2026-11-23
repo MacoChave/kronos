@@ -24,18 +24,18 @@ class NeuToggleButton extends StatelessWidget {
         duration: const Duration(milliseconds: 100),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         decoration: BoxDecoration(
-          color: SilkColors.background,
+          color: context.silk.background,
           borderRadius: BorderRadius.circular(16),
           boxShadow: value
               ? []
               : [
-                  const BoxShadow(
-                    color: SilkColors.shadowDark,
+                  BoxShadow(
+                    color: context.silk.shadowDark,
                     offset: Offset(4, 4),
                     blurRadius: 12,
                   ),
-                  const BoxShadow(
-                    color: SilkColors.shadowDark,
+                  BoxShadow(
+                    color: context.silk.shadowDark,
                     offset: Offset(-4, -4),
                     blurRadius: 12,
                   ),
@@ -47,13 +47,13 @@ class NeuToggleButton extends StatelessWidget {
           children: [
             if (icon != null) ...[
               Icon(icon,
-                  color: value ? SilkColors.primary : SilkColors.onSurface),
+                  color: value ? context.silk.primary : context.silk.onSurface),
               const SizedBox(height: 8),
             ],
             if (label != null)
               Text(label!,
                   style: TextStyle(
-                    color: SilkColors.onSurface,
+                    color: context.silk.onSurface,
                   )),
           ],
         ),

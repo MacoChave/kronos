@@ -31,18 +31,18 @@ class _NeuButtonState extends State<NeuButton> {
         duration: const Duration(milliseconds: 100),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         decoration: BoxDecoration(
-          color: SilkColors.background,
+          color: context.silk.background,
           borderRadius: BorderRadius.circular(16),
           boxShadow: _pressed
               ? []
               : [
-                  const BoxShadow(
-                    color: SilkColors.shadowDark,
+                  BoxShadow(
+                    color: context.silk.shadowDark,
                     offset: Offset(4, 4),
                     blurRadius: 12,
                   ),
-                  const BoxShadow(
-                    color: SilkColors.shadowDark,
+                  BoxShadow(
+                    color: context.silk.shadowDark,
                     offset: Offset(-4, -4),
                     blurRadius: 12,
                   ),
@@ -52,12 +52,12 @@ class _NeuButtonState extends State<NeuButton> {
           mainAxisSize: MainAxisSize.min,
           children: [
             if (widget.icon != null) ...[
-              Icon(widget.icon, color: SilkColors.primary),
+              Icon(widget.icon, color: context.silk.primary),
               const SizedBox(width: 12),
             ],
             Text(widget.label,
-                style: const TextStyle(
-                    color: SilkColors.primary,
+                style: TextStyle(
+                    color: context.silk.primary,
                     fontSize: 16,
                     fontWeight: FontWeight.w600)),
           ],

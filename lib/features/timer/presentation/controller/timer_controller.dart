@@ -15,13 +15,15 @@ class TimerController extends ChangeNotifier {
 
   TimerController({required this.config}) {
     _audioService.preload();
-    resetTimer();
+    resetTimer(playSound: false);
   }
 
-  void resetTimer() {
+  /// [playSound] es false en el arranque inicial (sin doble bip).
+  void resetTimer({bool playSound = true}) {
     _timer?.cancel();
     _vibrationService.cancel();
     _audioService.stop();
+    if (playSound) _audioService.playDoubleBeep();
     remainingSeconds = config.totalSeconds;
     _startTimer();
     notifyListeners();
@@ -47,15 +49,24 @@ class TimerController extends ChangeNotifier {
   }
 
   void _handleTimeEffects(int seconds) {
-    if (seconds >= 6 && seconds <= 10) {
-      // Vibra fuerte a cada segundo del 10 al 6to segundo
-      _vibrationService.vibrateStrong();
-    } else if (seconds >= 1 && seconds <= 5) {
-      // Reproduce archivo de sonido del 5 al 1er segundo
-      _audioService.playCountdownTick();
-    } else if (seconds == 0) {
-      // Reproduce otro archivo de sonido cuando se acaba el tiempo
-      _audioService.playTimeUp();
+    // Doble bip al llegar a 1:00 y a 0:30
+    if (seconds == 60 || seconds == 30) {
+      _audioService.playDoubleBeep();
+    }
+
+    // Vibración fuerte desde el segundo 30 hasta el 1, a intensidad máxima
+    if (seconds >= 1 && seconds <= 30) {
+      _vibrationService.vibrateWithIntensity(1.0);
+    }
+
+    // Bip a volumen máximo desde el segundo 20 hasta el 1
+    if (seconds >= 1 && seconds <= 20) {
+      _audioService.playBeep(1.0);
+    }
+
+    // Doble bip al terminarse el tiempo
+    if (seconds == 0) {
+      _audioService.playDoubleBeep();
     }
   }
 

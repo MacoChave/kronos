@@ -31,7 +31,7 @@ class NeuDialog extends StatelessWidget {
         backgroundColor: Colors.transparent,
         child: Container(
           padding: padding,
-          decoration: SilkDecor.card(radius: radius),
+          decoration: context.silk.card(radius: radius),
           child: child,
         ));
   }

@@ -39,18 +39,18 @@ class _NeuTimePickerState extends State<NeuTimePicker> {
           children: [
             Text(
               widget.label.toUpperCase(),
-              style: const TextStyle(
+              style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
-                  color: SilkColors.onSurface,
+                  color: context.silk.onSurface,
                   letterSpacing: 1.2),
             ),
             Text(
               '${_currentValue.toInt()}',
-              style: const TextStyle(
+              style: TextStyle(
                   fontSize: 48,
                   fontWeight: FontWeight.w700,
-                  color: SilkColors.primary,
+                  color: context.silk.primary,
                   height: 1.0),
             ),
           ],
@@ -62,13 +62,15 @@ class _NeuTimePickerState extends State<NeuTimePicker> {
           child: SliderTheme(
             data: SliderThemeData(
               trackHeight: 14.0,
-              activeTrackColor: SilkColors.primary,
-              inactiveTrackColor: SilkColors.background,
-              overlayColor: SilkColors.primary.withValues(alpha: 0.2),
+              activeTrackColor: context.silk.primary,
+              inactiveTrackColor: context.silk.background,
+              overlayColor: context.silk.primary.withValues(alpha: 0.2),
               trackShape: const RoundedRectSliderTrackShape(),
-              thumbShape: const CustomSliderThumbCircle(
+              thumbShape: CustomSliderThumbCircle(
                 thumbRadius: 20.0,
-                innerColor: SilkColors.primary,
+                innerColor: context.silk.primary,
+                outerColor: context.silk.background,
+                shadowColor: context.silk.primary,
               ),
             ),
             child: Slider(
@@ -93,20 +95,20 @@ class _NeuTimePickerState extends State<NeuTimePicker> {
               padding: const EdgeInsets.only(left: 8.0),
               child: Text(
                 "${widget.min} ${widget.label.toUpperCase().substring(0, 3)}",
-                style: const TextStyle(
+                style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
-                    color: SilkColors.onSurfaceVariant),
+                    color: context.silk.onSurfaceVariant),
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(right: 8.0),
               child: Text(
                 "${widget.max} ${widget.label.toUpperCase().substring(0, 3)}",
-                style: const TextStyle(
+                style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
-                    color: SilkColors.onSurfaceVariant),
+                    color: context.silk.onSurfaceVariant),
               ),
             ),
           ],
@@ -119,10 +121,14 @@ class _NeuTimePickerState extends State<NeuTimePicker> {
 class CustomSliderThumbCircle extends SliderComponentShape {
   final double thumbRadius;
   final Color innerColor;
+  final Color outerColor;
+  final Color shadowColor;
 
   const CustomSliderThumbCircle({
     required this.thumbRadius,
     required this.innerColor,
+    required this.outerColor,
+    required this.shadowColor,
   });
 
   @override
@@ -151,11 +157,11 @@ class CustomSliderThumbCircle extends SliderComponentShape {
     final Path shadowPath = Path()
       ..addOval(Rect.fromCircle(center: center, radius: thumbRadius));
     canvas.drawShadow(
-        shadowPath, SilkColors.primary.withValues(alpha: 0.3), 6.0, true);
+        shadowPath, shadowColor.withValues(alpha: 0.3), 6.0, true);
 
     // Circulo blanco exterior
     final Paint paintOuter = Paint()
-      ..color = SilkColors.background
+      ..color = outerColor
       ..style = PaintingStyle.fill;
     canvas.drawCircle(center, thumbRadius, paintOuter);
 

@@ -42,15 +42,15 @@ class _TimerPageState extends State<TimerPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Timer'),
+        title: Text('Timer'),
         centerTitle: true,
-        elevation: SilkShadows.raised[0].blurRadius,
-        backgroundColor: SilkColors.background,
-        titleTextStyle: SilkTheme.theme.textTheme.headlineMedium?.copyWith(
-          color: SilkColors.primary,
+        elevation: context.silk.raised[0].blurRadius,
+        backgroundColor: context.silk.background,
+        titleTextStyle: Theme.of(context).textTheme.headlineMedium?.copyWith(
+          color: context.silk.primary,
           fontWeight: FontWeight.bold,
         ),
-        iconTheme: const IconThemeData(color: SilkColors.primary),
+        iconTheme: IconThemeData(color: context.silk.primary),
       ),
       body: Center(
           child: Column(
@@ -72,7 +72,7 @@ class _TimerPageState extends State<TimerPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(displayMinutes.toString().padLeft(2, '0'),
-                            style: SilkTheme.theme.textTheme.headlineLarge
+                            style: Theme.of(context).textTheme.headlineLarge
                                 ?.copyWith(
                               fontSize: screenWidth * 0.2,
                               fontWeight: FontWeight.bold,
@@ -80,7 +80,7 @@ class _TimerPageState extends State<TimerPage> {
                             )),
                         const SizedBox(width: 24),
                         Text(':',
-                            style: SilkTheme.theme.textTheme.headlineLarge
+                            style: Theme.of(context).textTheme.headlineLarge
                                 ?.copyWith(
                               fontSize: screenWidth * 0.2,
                               fontWeight: FontWeight.bold,
@@ -88,7 +88,7 @@ class _TimerPageState extends State<TimerPage> {
                             )),
                         const SizedBox(width: 24),
                         Text(displaySeconds.toString().padLeft(2, '0'),
-                            style: SilkTheme.theme.textTheme.headlineLarge
+                            style: Theme.of(context).textTheme.headlineLarge
                                 ?.copyWith(
                               fontSize: screenWidth * 0.2,
                               fontWeight: FontWeight.bold,
@@ -109,11 +109,11 @@ class _TimerPageState extends State<TimerPage> {
 
   Color _getColorForTime(int displayMinutes, int displaySeconds) {
     if (displayMinutes == 0 && displaySeconds <= 10) {
-      return SilkColors.onError;
+      return context.silk.onError;
     } else if (displayMinutes == 0 && displaySeconds <= 30) {
-      return SilkColors.onWarning;
+      return context.silk.onWarning;
     } else {
-      return SilkColors.onSurface;
+      return context.silk.onSurface;
     }
   }
 }
